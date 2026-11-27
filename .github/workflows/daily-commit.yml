@@ -1,0 +1,46 @@
+name: Daily streak
+
+on:
+  schedule:
+    # 10 runs/day within 09:00-17:00 WIB (UTC+7):
+    # hourly 02:00-10:00 UTC (09:00-17:00 WIB) + 02:30 UTC (09:30 WIB)
+    - cron: "0 2-10 * * *"
+    - cron: "30 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Append to daily log
+        run: |
+          if [ ! -f daily-log.md ]; then
+            printf '# Daily log\n\n' > daily-log.md
+          fi
+          NOTES=(
+            "Small steps, every day."
+            "Ship something, even if it's small."
+            "Consistency beats intensity."
+            "Done beats perfect."
+            "One commit at a time."
+            "Progress over perfection."
+            "Keep the graph green."
+            "No zero days."
+            "Build in public."
+            "Tiny improvements compound."
+          )
+          HOUR=$(date -u +%H)
+          IDX=$((10#$HOUR % 10))
+          NOW=$(TZ=Asia/Jakarta date '+%Y-%m-%d %H:%M WIB')
+          echo "- $NOW — ${NOTES[$IDX]}" >> daily-log.md
+      - name: Commit and push
+        run: |
+          git config user.name "saifulohyr"
+          git config user.email "135521570+saifulohyr@users.noreply.github.com"
+          git add daily-log.md
+          git diff --cached --quiet || git commit -m "daily log $(TZ=Asia/Jakarta date '+%Y-%m-%d %H:%M')"
+          git push
