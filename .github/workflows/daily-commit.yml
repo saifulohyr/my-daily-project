@@ -23,7 +23,7 @@ jobs:
           if [ ! -f daily-log.md ]; then
             printf '# Daily log\n\n' > daily-log.md
           fi
-          # Append today's Muse-written note once (from daily-notes.md)
+          # Append today's daily note once (from daily-notes.md)
           if [ -f daily-notes.md ]; then
             NOTE=$(grep "^$TODAY:" daily-notes.md || true)
             if [ -n "$NOTE" ] && ! grep -q "$TODAY:" daily-log.md; then
