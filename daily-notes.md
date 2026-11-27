@@ -1,4 +1,4 @@
-# Daily notes (written by Muse)
+# Daily notes
 
 One note per day. The workflow appends today's note to daily-log.md once, then adds a short heartbeat line per run.
 
