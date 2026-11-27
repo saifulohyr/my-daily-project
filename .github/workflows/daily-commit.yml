@@ -18,9 +18,19 @@ jobs:
       - uses: actions/checkout@v4
       - name: Append to daily log
         run: |
+          TODAY=$(TZ=Asia/Jakarta date '+%Y-%m-%d')
+          NOW=$(TZ=Asia/Jakarta date '+%Y-%m-%d %H:%M WIB')
           if [ ! -f daily-log.md ]; then
             printf '# Daily log\n\n' > daily-log.md
           fi
+          # Append today's Muse-written note once (from daily-notes.md)
+          if [ -f daily-notes.md ]; then
+            NOTE=$(grep "^$TODAY:" daily-notes.md || true)
+            if [ -n "$NOTE" ] && ! grep -q "$TODAY:" daily-log.md; then
+              echo "- $NOTE" >> daily-log.md
+            fi
+          fi
+          # Heartbeat line for this run
           NOTES=(
             "Small steps, every day."
             "Ship something, even if it's small."
@@ -35,7 +45,6 @@ jobs:
           )
           HOUR=$(date -u +%H)
           IDX=$((10#$HOUR % 10))
-          NOW=$(TZ=Asia/Jakarta date '+%Y-%m-%d %H:%M WIB')
           echo "- $NOW — ${NOTES[$IDX]}" >> daily-log.md
       - name: Commit and push
         run: |
