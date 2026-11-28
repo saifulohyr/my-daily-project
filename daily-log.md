@@ -9,3 +9,5 @@
 - 2026-11-28: Read the error message twice before Googling it. Half of all bugs confess in the first two lines.
 - 2026-11-28 16:34 WIB — Tiny improvements compound.
 - 2026-11-28 17:47 WIB — Small steps, every day.
+- 2026-11-29: Name things for the next person reading your code at 2am — that person is usually future you.
+- 2026-11-29 00:51 WIB — No zero days.
